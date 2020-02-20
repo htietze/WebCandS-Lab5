@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Events</title>
+
+  <style>
+
+    #canvas {
+      border: 1px black solid;
+    }
+
+  </style>
+
+</head>
+<body>
+
+<P>Click the mouse on the canvas</P>
+<canvas id="canvas" height="400" width="400"></canvas>
+<br>
+<button id='clear'>Clear</button>
+<input id='color' type='color' value='#000000'>
+<input id='range' type='range' value='3'>
+
+<script>
+
+  var canvas = document.getElementById("canvas");
+  var context = canvas.getContext("2d");
+  
+  var mousedown = false
+
+  let color = document.getElementById('color')
+  let radius = document.getElementById('range')
+
+  canvas.addEventListener("mousedown", function() {
+    mousedown = true
+  });
+
+  canvas.addEventListener("mouseup", function() {
+    mousedown = false 
+  })
+
+  canvas.addEventListener("mousemove", function() {
+
+    if (!mousedown) { return; }
+
+    // event is a built-in variable, contains the event that triggered this function
+    // get the x, y location of the event
+    var x = event.offsetX;
+    var y = event.offsetY;   //offsetX, offsetY, may not work in older browsers
+
+    //Draw a filled rectangle centered under the mouse click
+    //x, y is the top left corner, so shift up and left by 5 to center it under the mouse.
+    //context.fillRect(x-5, y-5, 10, 10);
+
+    context.fillStyle = color.value
+    context.beginPath()
+    context.arc(x, y, radius.value, 0, 6.3)
+    context.fill()
+  })
+
+  let clear = document.querySelector('#clear')
+  clear.addEventListener('click', function() {
+    // https://stackoverflow.com/questions/2142535/how-to-clear-the-canvas-for-redrawing
+    context.clearRect(0, 0, canvas.width, canvas.height);
+  })
+
+</script>
+
+</body>
+</html>
